@@ -3,6 +3,7 @@ import { useField } from "formik";
 import { useSelect } from "downshift";
 import { useId } from "@reach/auto-id";
 import React from "react";
+import { FixedSizeList } from "react-window";
 import InputError from "./input-error";
 
 type Item = { label: string | React.ReactNode; value: string };
@@ -123,34 +124,76 @@ const SingleSelect: React.FC<PropTypes> = ({
             ...dropdownStyles[isOpen ? "open" : "closed"],
           }}
         >
-          {isOpen &&
-            items.map((item, index) => (
-              <li
-                key={item.value}
-                className={[
-                  highlightedIndex === index ? "active" : "",
-                  selectedItem && selectedItem.value === item.value
-                    ? "selected"
-                    : "",
-                ].join(" ")}
-                {...getItemProps({ item, index })}
-                css={{
-                  cursor: "pointer",
-                  minHeight: "32px",
-                  padding: "0 2px 0 8px",
-                  display: "flex",
-                  alignItems: "center",
-                  "&.selected": {
-                    background: "#D7EFF6",
-                  },
-                  "&.active": {
-                    background: "#E5F5FB",
-                  },
-                }}
+          {isOpen && (
+            <>
+              <FixedSizeList
+                itemData={items}
+                itemCount={items.length}
+                height={207}
+                itemSize={32}
+                width={256}
               >
-                {item.label}
-              </li>
-            ))}
+                {({ index, style, data }) => {
+                  const item = data[index];
+                  return (
+                    <li
+                      key={item.value}
+                      className={[
+                        highlightedIndex === index ? "active" : "",
+                        selectedItem && selectedItem.value === item.value
+                          ? "selected"
+                          : "",
+                      ].join(" ")}
+                      {...getItemProps({ item, index })}
+                      css={{
+                        cursor: "pointer",
+                        minHeight: "32px",
+                        padding: "0 2px 0 8px",
+                        display: "flex",
+                        alignItems: "center",
+                        "&.selected": {
+                          background: "#D7EFF6",
+                        },
+                        "&.active": {
+                          background: "#E5F5FB",
+                        },
+                      }}
+                      style={style}
+                    >
+                      {data[index].label}
+                    </li>
+                  );
+                }}
+              </FixedSizeList>
+              {/* {items.map((item, index) => (
+                <li
+                  key={item.value}
+                  className={[
+                    highlightedIndex === index ? "active" : "",
+                    selectedItem && selectedItem.value === item.value
+                      ? "selected"
+                      : "",
+                  ].join(" ")}
+                  {...getItemProps({ item, index })}
+                  css={{
+                    cursor: "pointer",
+                    minHeight: "32px",
+                    padding: "0 2px 0 8px",
+                    display: "flex",
+                    alignItems: "center",
+                    "&.selected": {
+                      background: "#D7EFF6",
+                    },
+                    "&.active": {
+                      background: "#E5F5FB",
+                    },
+                  }}
+                >
+                  {item.label}
+                </li>
+              ))} */}
+            </>
+          )}
         </ul>
       </div>
       <InputError id={errorId} errorMessage={meta.error} />

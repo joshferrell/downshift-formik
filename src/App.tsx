@@ -2,6 +2,7 @@ import { Form, Formik } from "formik";
 import { Global, css } from "@emotion/react";
 import SingleSelect from "./widgets/single-select";
 import { object, string } from "yup";
+import stateList from "./state-list";
 
 const App = () => {
   const validationSchema = object({
@@ -26,11 +27,7 @@ const App = () => {
         onSubmit={(values) => console.log(values)}
       >
         <Form>
-          <SingleSelect
-            label="States"
-            name="states"
-            items={[{ label: "California", value: "CA" }]}
-          />
+          <SingleSelect label="States" name="states" items={stateList} />
           <button type="submit">submit form</button>
         </Form>
       </Formik>
