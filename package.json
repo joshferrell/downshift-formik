@@ -2,6 +2,7 @@
   "name": "downshift-example",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://joshferrell.github.io/downshift-formik/",
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
@@ -25,6 +26,8 @@
     "yup": "^0.32.11"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -49,6 +52,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-window": "^1.8.5"
+    "@types/react-window": "^1.8.5",
+    "gh-pages": "^3.2.3"
   }
 }
