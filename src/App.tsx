@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Form, Formik } from "formik";
+import { Global, css } from "@emotion/react";
+import SingleSelect from "./widgets/single-select";
+import { object, string } from "yup";
 
-function App() {
+const App = () => {
+  const validationSchema = object({
+    states: string().required("Select a state"),
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Global
+        styles={css`
+          html,
+          label,
+          input,
+          li {
+            font-family: SF Pro Text, sans-serif;
+          }
+        `}
+      />
+      <Formik
+        initialValues={{ states: "" }}
+        validationSchema={validationSchema}
+        onSubmit={(values) => console.log(values)}
+      >
+        <Form>
+          <SingleSelect
+            label="States"
+            name="states"
+            items={[{ label: "California", value: "CA" }]}
+          />
+          <button type="submit">submit form</button>
+        </Form>
+      </Formik>
+    </>
   );
-}
+};
 
 export default App;
